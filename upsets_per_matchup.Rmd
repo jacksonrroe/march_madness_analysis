@@ -1,0 +1,63 @@
+---
+title: "upsets_per_matchup.Rmd"
+author: "Jackson Roe"
+date: '2022-07-02'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+# wrangled with data to make table that shows the total number of upsets historically per matchup
+first_rd_upsets <- mm_data |> 
+  filter(ROUND == 1) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |> 
+  select(WSEED, LSEED, upset) |> 
+  group_by(WSEED,LSEED) |>
+  summarize(upsets_per_matchup = sum(upset)) |> 
+  filter(upsets_per_matchup >= 1) |> 
+#  mutate(seven_vs_ten = )
+
+# putting the upsets from 2022 into a tibble 
+this_year <- tribble(~WSEED, ~LSEED, ~upsets_per_matchup, 
+        15, 2, 1, 
+        12, 5, 2,
+        11, 6, 3, 
+        10, 7, 1)
+
+# joining 2022 to the rest of the years 
+first_upsets <- full_join(first_rd_upsets, this_year)
+# function did not combine the upsets, so I had two 15s in the WSEED column, for example. 
+
+
+# combining the repeat numbers to fully join the data
+upset_data <- first_upsets |> 
+  group_by(WSEED, LSEED) |> 
+  summarize(upsets_per_matchup = sum(upsets_per_matchup)) 
+# mutate(matchup 
+
+# to convert upsets_per_matchup to a percent, divide by 148 because there have been 37 NCAA tournaments with 64 teams, and there are 4 of each first round matchup. There was no tournament in 2020 due to covid.
+
+#making graph, do not know how to label x-axis with values such as "7 vs. 10"
+upset_data |> 
+  ggplot(aes(x = WSEED, y = upsets_per_matchup/148)) + 
+    geom_col() + 
+    scale_x_continuous(breaks = c(10, 11, 12, 13, 14, 15, 16)) +
+    scale_y_continuous(labels = scales::percent_format()) + 
+    theme_gray() + 
+    labs(title = "Percent Chance of an Upset in the First Round by Seed",          
+         subtitle = "Only one 16 seed has beaten a 1 seed (UMBC vs. Virginia in 2018)",  
+         x = "Seed", 
+         y = "Percent Chance of Upset",
+         caption = "Source: kaggle (Woody Gilbertson; 2021)")
+
+    
+```
+
