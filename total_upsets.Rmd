@@ -13,11 +13,9 @@ library(dplyr)
 
 ```{r}
 total_upsets <- read_csv(file = "data_cleaned.csv")
-
-last_year_upsets <- tribble(~YEAR, ~upsets_per_year, 
-                            2022, 18)
                 
  # mutated upset twice for clarification that 1 = true and 0 = false
+# wrangling with the data table
 upsets_by_year <- total_upsets |> 
   select(WSEED, LSEED, YEAR, ROUND) |> 
   mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
@@ -25,8 +23,14 @@ upsets_by_year <- total_upsets |>
   group_by(YEAR) |> 
   summarize(upsets_per_year = sum(upset))
 
+# this puts the 2022 upsets into a tibble
+last_year_upsets <- tribble(~YEAR, ~upsets_per_year, 
+                            2022, 18)
+
+# joining the filtered data table and the 2022 upsets tibble
 all_upsets <- full_join(upsets_by_year, last_year_upsets)
 
+# now making the plot 
 all_upsets |> 
   ggplot(aes(x = YEAR, y = upsets_per_year)) + 
     geom_col() + 
@@ -37,8 +41,9 @@ all_upsets |>
          subtitle = "Seems to be a slow increase in the number of upsets over time, no\ntournament during 2020 due to the Covid-19 pandemic", 
          x = "Year", 
          y = "Number of Upsets", 
-         caption = "Wikipedia: NCAA Division I Men's Basketball Tournament Upsets") + 
+         caption = "Source: kaggle (Woody Gilbertson; 2021)") + 
     theme_bw()
   
+# should I color this graph? (add fill)
 ```
 
