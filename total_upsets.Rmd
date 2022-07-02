@@ -1,0 +1,44 @@
+---
+title: "total_upsets.Rmd"
+author: "Jackson Roe"
+date: '2022-07-02'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+total_upsets <- read_csv(file = "data_cleaned.csv")
+
+last_year_upsets <- tribble(~YEAR, ~upsets_per_year, 
+                            2022, 18)
+                
+ # mutated upset twice for clarification that 1 = true and 0 = false
+upsets_by_year <- total_upsets |> 
+  select(WSEED, LSEED, YEAR, ROUND) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |> 
+  group_by(YEAR) |> 
+  summarize(upsets_per_year = sum(upset))
+
+all_upsets <- full_join(upsets_by_year, last_year_upsets)
+
+all_upsets |> 
+  ggplot(aes(x = YEAR, y = upsets_per_year)) + 
+    geom_col() + 
+    geom_smooth(method = "lm", formula = y~x, se = FALSE) + 
+    scale_x_continuous(breaks = c(1985, 1990, 1995, 2000, 2005,                                     2010, 2015, 2020)) + 
+    scale_y_continuous(breaks = c(0, 5, 10, 15, 20)) + 
+    labs(title = "Total Upsets Per Year in March Madness", 
+         subtitle = "Seems to be a slow increase in the number of upsets over time, no\ntournament during 2020 due to the Covid-19 pandemic", 
+         x = "Year", 
+         y = "Number of Upsets", 
+         caption = "Wikipedia: NCAA Division I Men's Basketball Tournament Upsets") + 
+    theme_bw()
+  
+```
+
