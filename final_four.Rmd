@@ -1,0 +1,70 @@
+---
+title: "final_four.Rmd"
+author: "Jackson Roe"
+date: '2022-07-04'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+#2022 data
+
+last_year <- tribble(~WSEED, ~seed_total,
+        1, 1,
+        2, 1,
+        2, 1,
+        8, 1)
+
+# filtering data to teams that have qualified for final four
+
+data <- mm_data |> 
+  filter(ROUND == 4) |> 
+  group_by(WSEED) |> 
+  summarize(seed_total = sum(WSEED) / WSEED)
+
+#joining data to 2022 data
+
+combined <- full_join(data, last_year)
+
+# trying to get rid of repeat rows
+
+combined |> 
+  group_by(WSEED) |> 
+  summarize(seed_total = sum(WSEED) / WSEED)
+
+#not sure how to make it so there is only 1 "1" WSEED, and so forth. Will make a tibble instead. 
+
+joined_data <- tribble(~WSEED, ~seed_total,
+        1, 60, 
+        2, 32,
+        3, 17,
+        4, 13, 
+        5, 7, 
+        6, 3,
+        7, 3,
+        8, 6,
+        9, 1,
+        10, 1,
+        11, 5)
+
+#making graph
+
+joined_data |> 
+  ggplot(aes(x = WSEED, y = seed_total / 148)) +
+    geom_col() +
+    scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme_bw() + 
+  labs(title = "Percent Chance of Making Final Four by Seed", 
+       subtitle = "Each 1 seed has over a 40% chance of making the Final Four", 
+        x = "Seed", 
+       y = "Percent Chance of Making Final Four",
+       caption = "Source: kaggle (Woody Gilbertson; 2021)")
+  
+```
+
