@@ -1,0 +1,79 @@
+---
+title: "upsets_per_round.Rmd"
+author: "Jackson Roe"
+date: '2022-07-03'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+# gather the data
+
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+# data from 2022 tournament
+
+last_year <- tribble(~ROUND, ~upsets_per_round, ~total_games,
+        1, 7, 1184,
+        2, 5, 592,
+        3, 5, 296,
+        4, 0, 148,
+        5, 1, 74,
+        6, 0, 37)
+
+# wrangle the data
+
+data <- mm_data |> 
+  select(WSEED, LSEED, ROUND) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |>
+  group_by(ROUND) |> 
+  summarize(upsets_per_round = sum(upset)) |> 
+  filter(ROUND != 0)
+# mutate(total_games = sum(ROUND)/ROUND)
+  
+# combine with 2022 data
+
+joined <- full_join(data, last_year)
+
+# have more than one 1,2,3,5 in the ROUND category, have to combine them
+
+upset_data <- joined |> 
+  group_by(ROUND) |>
+  summarize(upsets_per_round= sum(upsets_per_round))
+
+# finding average upsets per round with upset_data
+
+# cannot find a way to combine upset_data with the total amount of games played per round besides a new tibble
+
+rounds <- tribble(~ROUND, ~upsets_per_round, ~total_games, 
+        1, 231, 1184, 
+        2, 136, 592, 
+        3, 65, 296, 
+        4, 36, 148, 
+        5, 12, 74, 
+        6, 3, 37)
+
+# appears as if the chance for an upset goes down as the rounds go up, but this could jsut be because the seeds get closer together.
+
+rounds |> 
+  mutate(upset_chance = upsets_per_round/total_games) |> 
+  ggplot(aes(x = ROUND, y = upset_chance)) + 
+  geom_line(color = "blue") + 
+  scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6)) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme_bw() + 
+  labs(title = "Percent Chance of Upset in Each Round of March Madness",
+       subtitle = "Upsets are common earlier in the tournament, but higher seeds tend to \nwin in the later rounds", 
+       x = "Round", 
+       y = "Percent Chance of Upset",
+       caption = "Source: kaggle (Woody Gilbertson; 2021)")
+
+
+```
+
