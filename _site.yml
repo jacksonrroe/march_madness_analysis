@@ -1,0 +1,12 @@
+name: "."
+title: "March Madness: How to Pick the Perfect Bracket"
+description: |
+  March Madness: How to Pick the Perfect Bracket
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article
