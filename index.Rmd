@@ -20,7 +20,7 @@ library(usethis)
 # https://rstudio.github.io/distill/publish_website.html#github-pages
 
 ```
-
+poopypants.
 ```{r, total_upsets}
 read_rds("total_upsets.rds")
 
