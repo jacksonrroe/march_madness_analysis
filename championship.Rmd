@@ -13,6 +13,20 @@ library(dplyr)
 library(ggthemes)
 ```
 
+```{r, include = FALSE, echo = FALSE}
+# Rows are still repeating, I have 24 rows where WSEED = 1, and so forth. Making a tibble to fix this.
+
+joined_data <- tribble(~WSEED, ~times_won, 
+        1, 24,
+        2, 5,
+        3, 4,
+        4, 1,
+        6, 1,
+        7, 1,
+        8, 1)
+```
+
+
 ```{r}
 mm_data <- read_csv(file = "data_cleaned.csv")
 
@@ -38,16 +52,6 @@ combined |>
   group_by(WSEED) |> 
   summarize(times_won = sum(WSEED) / WSEED)
 
-# Rows are still repeating, I have 24 rows where WSEED = 1, and so forth. Making a tibble to fix this.
-
-joined_data <- tribble(~WSEED, ~times_won, 
-        1, 24,
-        2, 5,
-        3, 4,
-        4, 1,
-        6, 1,
-        7, 1,
-        8, 1)
 
 # graphing
 
