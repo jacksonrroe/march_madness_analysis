@@ -859,6 +859,7 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="sources.html">Sources</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -888,6 +889,9 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
+<li>
+  <a href="sources.html">Sources</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -906,7 +910,7 @@ $(document).ready(function () {
 
 <pre class="r"><code>mm_data &lt;- read_csv(file = &quot;data_cleaned.csv&quot;)</code></pre>
 <pre><code>## Rows: 2317 Columns: 8
-## ── Column specification ──────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (2): WTEAM, LTEAM
 ## dbl (6): YEAR, ROUND, WSEED, WSCORE, LSEED, LSCORE
@@ -923,9 +927,10 @@ last_year &lt;- tribble(~WSEED, ~times_won,
 data &lt;- mm_data |&gt;
   filter(ROUND == 6) |&gt;
   group_by(WSEED) |&gt;
-  summarize(times_won = sum(WSEED) / WSEED)
-
-# join to 2022 data
+  summarize(times_won = sum(WSEED) / WSEED)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code># join to 2022 data
 
 combined &lt;- full_join(data, last_year)</code></pre>
 <pre><code>## Joining, by = c(&quot;WSEED&quot;, &quot;times_won&quot;)</code></pre>
@@ -934,6 +939,8 @@ combined &lt;- full_join(data, last_year)</code></pre>
 combined |&gt; 
   group_by(WSEED) |&gt; 
   summarize(times_won = sum(WSEED) / WSEED)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 37 × 2
 ## # Groups:   WSEED [7]
 ##    WSEED times_won
@@ -964,7 +971,7 @@ joined_data &lt;- tribble(~WSEED, ~times_won,
 
 joined_data |&gt; 
   ggplot(aes(x = WSEED, y = times_won / 37)) + 
-    geom_col() + 
+    geom_col(color = &quot;honeydew4&quot;, fill = &quot;honeydew3&quot;) + 
     scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8)) +
   scale_y_continuous(labels = scales::percent_format()) + 
   theme_bw() + 

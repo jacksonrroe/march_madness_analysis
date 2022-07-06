@@ -859,6 +859,7 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="sources.html">Sources</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -888,6 +889,9 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
+<li>
+  <a href="sources.html">Sources</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -904,16 +908,9 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>mm_data &lt;- read_csv(file = &quot;data_cleaned.csv&quot;)</code></pre>
-<pre><code>## Rows: 2317 Columns: 8
-## ── Column specification ──────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (2): WTEAM, LTEAM
-## dbl (6): YEAR, ROUND, WSEED, WSCORE, LSEED, LSCORE
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code># wrangled with data to make table that shows the total number of upsets historically per matchup
+<pre class="r"><code>mm_data &lt;- read.csv(file = &quot;data_cleaned.csv&quot;)
+
+# wrangled with data to make table that shows the total number of upsets historically per matchup
 
 first_rd_upsets &lt;- mm_data |&gt; 
   filter(ROUND == 1) |&gt; 
@@ -922,9 +919,10 @@ first_rd_upsets &lt;- mm_data |&gt;
   select(WSEED, LSEED, upset) |&gt; 
   group_by(WSEED,LSEED) |&gt;
   summarize(upsets_per_matchup = sum(upset)) |&gt; 
-  filter(upsets_per_matchup &gt;= 1)
-
-# putting the upsets from 2022 into a tibble 
+  filter(upsets_per_matchup &gt;= 1)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code># putting the upsets from 2022 into a tibble 
   
 this_year &lt;- tribble(~WSEED, ~LSEED, ~upsets_per_matchup, 
         15, 2, 1, 
@@ -943,18 +941,19 @@ first_upsets &lt;- full_join(first_rd_upsets, this_year)</code></pre>
 
 upset_data &lt;- first_upsets |&gt; 
   group_by(WSEED, LSEED) |&gt; 
-  summarize(upsets_per_matchup = sum(upsets_per_matchup)) 
-
-# to convert upsets_per_matchup to a percent, divide by 148 because there have been 37 NCAA tournaments with 64 teams, and there are 4 of each first round matchup. There was no tournament in 2020 due to covid.
+  summarize(upsets_per_matchup = sum(upsets_per_matchup)) </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code># to convert upsets_per_matchup to a percent, divide by 148 because there have been 37 NCAA tournaments with 64 teams, and there are 4 of each first round matchup. There was no tournament in 2020 due to covid.
 
 #making graph, do not know how to label x-axis with values such as &quot;7 vs. 10&quot;
 
 upset_data |&gt; 
   ggplot(aes(x = WSEED, y = upsets_per_matchup/148)) + 
-    geom_col() + 
+    geom_col(color = &quot;black&quot;, fill = &quot;gray&quot;) + 
     scale_x_continuous(breaks = c(10, 11, 12, 13, 14, 15, 16)) +
     scale_y_continuous(labels = scales::percent_format()) + 
-    theme_gray() + 
+    theme_hc() + 
     labs(title = &quot;Percent Chance of an Upset in the First Round by Seed&quot;,          
          subtitle = &quot;Only one 16 seed has beaten a 1 seed (UMBC vs. Virginia in 2018)&quot;,  
          x = &quot;Seed&quot;, 

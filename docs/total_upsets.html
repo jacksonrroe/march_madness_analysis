@@ -859,6 +859,7 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="sources.html">Sources</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -888,6 +889,9 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
+<li>
+  <a href="sources.html">Sources</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -906,7 +910,7 @@ $(document).ready(function () {
 
 <pre class="r"><code>total_upsets &lt;- read_csv(file = &quot;data_cleaned.csv&quot;)</code></pre>
 <pre><code>## Rows: 2317 Columns: 8
-## ── Column specification ──────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (2): WTEAM, LTEAM
 ## dbl (6): YEAR, ROUND, WSEED, WSCORE, LSEED, LSCORE
@@ -937,17 +941,16 @@ all_upsets &lt;- full_join(upsets_by_year, last_year_upsets)</code></pre>
 all_upsets |&gt; 
   ggplot(aes(x = YEAR, y = upsets_per_year)) + 
     geom_col() + 
-    geom_smooth(method = &quot;lm&quot;, formula = y~x, se = FALSE) + 
+    geom_smooth(method = &quot;lm&quot;, formula = y ~ x, se = FALSE) + 
     scale_x_continuous(breaks = c(1985, 1990, 1995, 2000, 2005,                                     2010, 2015, 2020)) + 
     scale_y_continuous(breaks = c(0, 5, 10, 15, 20)) + 
     labs(title = &quot;Total Upsets Per Year in March Madness&quot;, 
          subtitle = &quot;Seems to be a slow increase in the number of upsets over time, no\ntournament during 2020 due to the Covid-19 pandemic&quot;, 
          x = &quot;Year&quot;, 
          y = &quot;Number of Upsets&quot;, 
-         caption = &quot;Source: kaggle (Woody Gilbertson; 2021)&quot;) + 
+         caption = &quot;Source: kaggle (Woody Gilbertson; 2021)&quot;) +
     theme_bw()</code></pre>
 <p><img src="total_upsets_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code># should I color this graph? (add fill)</code></pre>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

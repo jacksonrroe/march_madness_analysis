@@ -859,6 +859,7 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
+<a href="sources.html">Sources</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -888,6 +889,9 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
+<li>
+  <a href="sources.html">Sources</a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -906,7 +910,7 @@ $(document).ready(function () {
 
 <pre class="r"><code>mm_data &lt;- read_csv(file = &quot;data_cleaned.csv&quot;)</code></pre>
 <pre><code>## Rows: 2317 Columns: 8
-## ── Column specification ──────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (2): WTEAM, LTEAM
 ## dbl (6): YEAR, ROUND, WSEED, WSCORE, LSEED, LSCORE
@@ -926,9 +930,10 @@ last_year &lt;- tribble(~WSEED, ~seed_total,
 data &lt;- mm_data |&gt; 
   filter(ROUND == 4) |&gt; 
   group_by(WSEED) |&gt; 
-  summarize(seed_total = sum(WSEED) / WSEED)
-
-#joining data to 2022 data
+  summarize(seed_total = sum(WSEED) / WSEED)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>#joining data to 2022 data
 
 combined &lt;- full_join(data, last_year)</code></pre>
 <pre><code>## Joining, by = c(&quot;WSEED&quot;, &quot;seed_total&quot;)</code></pre>
@@ -937,6 +942,8 @@ combined &lt;- full_join(data, last_year)</code></pre>
 combined |&gt; 
   group_by(WSEED) |&gt; 
   summarize(seed_total = sum(WSEED) / WSEED)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;WSEED&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 148 × 2
 ## # Groups:   WSEED [11]
 ##    WSEED seed_total
@@ -967,14 +974,14 @@ joined_data &lt;- tribble(~WSEED, ~seed_total,
         10, 1,
         11, 5)
 
-#making graph
+#making graph, used  fill = lightcyan4 and color = ivory4 originally
 
 joined_data |&gt; 
   ggplot(aes(x = WSEED, y = seed_total / 148)) +
-    geom_col() +
+    geom_col(fill = &quot;steelblue4&quot;, color = &quot;steelblue4&quot;) +
     scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)) +
   scale_y_continuous(labels = scales::percent_format()) + 
-  theme_bw() + 
+  theme_stata() + 
   labs(title = &quot;Percent Chance of Making Final Four by Seed&quot;, 
        subtitle = &quot;Each 1 seed has over a 40% chance of making the Final Four, \nno seed ranked 12+ has ever made the final four&quot;, 
        x = &quot;Seed&quot;, 
