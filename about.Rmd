@@ -6,5 +6,21 @@ description: |
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+#can't yet figure out how to make a new line in the "about this project" section, had to make another subtitle
 ```
 
+## About Me
+My name is **Jackson Roe**, and I am a rising senior attending Dublin Coffman High School. 
+
+## About the Project
+*March Madness: How to pick a perfect bracket*  
+This project was designed to analyze every march madness bracket since the 1985 expansion to a 64-team tournament, with the goal of providing people with an easy to understand blueprint of how to pick the best bracket possible.
+
+### Goals
+* Effectively analyze past March Madness Tournaments
+  + It may be hard to create complex variables with the simple dataset I have found.
+* Provide useful data to people about March Madness
+
+“This is data science”  
+~Preceptor  
+[Kane’s Free High School Data Science Bootcamp](https://bootcamp.davidkane.info)

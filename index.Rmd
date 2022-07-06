@@ -7,12 +7,285 @@ site: distill::distill_website
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
+library(tidyverse)
+library(knitr)
+library(distill)
+library(ggthemes)
+library(dplyr)
+library(usethis)
 # Learn more about creating websites with Distill at:
 # https://rstudio.github.io/distill/website.html
 
 # Learn more about publishing to GitHub Pages at:
 # https://rstudio.github.io/distill/publish_website.html#github-pages
+
+```
+
+```{r, total_upsets}
+total_upsets <- read_csv(file = "data_cleaned.csv")
+                
+ # mutated upset twice for clarification that 1 = true and 0 = false
+# wrangling with the data table
+
+upsets_by_year <- total_upsets |> 
+  select(WSEED, LSEED, YEAR, ROUND) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |> 
+  group_by(YEAR) |> 
+  summarize(upsets_per_year = sum(upset))
+
+# this puts the 2022 upsets into a tibble
+
+last_year_upsets <- tribble(~YEAR, ~upsets_per_year, 
+                            2022, 18)
+
+# joining the filtered data table and the 2022 upsets tibble
+
+all_upsets <- full_join(upsets_by_year, last_year_upsets)
+
+# now making the plot 
+
+all_upsets |> 
+  ggplot(aes(x = YEAR, y = upsets_per_year)) + 
+    geom_col() + 
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
+    scale_x_continuous(breaks = c(1985, 1990, 1995, 2000, 2005,                                     2010, 2015, 2020)) + 
+    scale_y_continuous(breaks = c(0, 5, 10, 15, 20)) + 
+    labs(title = "Total Upsets Per Year in March Madness", 
+         subtitle = "Seems to be a slow increase in the number of upsets over time, no\ntournament during 2020 due to the Covid-19 pandemic", 
+         x = "Year", 
+         y = "Number of Upsets", 
+         caption = "Source: kaggle (Woody Gilbertson; 2021)") + 
+    theme_bw()
+
+```
+
+```{r, upsets_per_matchup}
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+# wrangled with data to make table that shows the total number of upsets historically per matchup
+
+first_rd_upsets <- mm_data |> 
+  filter(ROUND == 1) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |> 
+  select(WSEED, LSEED, upset) |> 
+  group_by(WSEED,LSEED) |>
+  summarize(upsets_per_matchup = sum(upset)) |> 
+  filter(upsets_per_matchup >= 1)
+
+# putting the upsets from 2022 into a tibble 
+  
+this_year <- tribble(~WSEED, ~LSEED, ~upsets_per_matchup, 
+        15, 2, 1, 
+        12, 5, 2,
+        11, 6, 3, 
+        10, 7, 1)
+
+# joining 2022 to the rest of the years 
+
+first_upsets <- full_join(first_rd_upsets, this_year)
+
+# function did not combine the upsets, so I had two 15s in the WSEED column, for example. 
+
+
+# combining the repeat numbers to fully join the data
+
+upset_data <- first_upsets |> 
+  group_by(WSEED, LSEED) |> 
+  summarize(upsets_per_matchup = sum(upsets_per_matchup)) 
+
+# to convert upsets_per_matchup to a percent, divide by 148 because there have been 37 NCAA tournaments with 64 teams, and there are 4 of each first round matchup. There was no tournament in 2020 due to covid.
+
+#making graph, do not know how to label x-axis with values such as "7 vs. 10"
+
+upset_data |> 
+  ggplot(aes(x = WSEED, y = upsets_per_matchup/148)) + 
+    geom_col(color = "black", fill = "gray") + 
+    scale_x_continuous(breaks = c(10, 11, 12, 13, 14, 15, 16)) +
+    scale_y_continuous(labels = scales::percent_format()) + 
+    theme_hc() + 
+    labs(title = "Percent Chance of an Upset in the First Round by Seed",          
+         subtitle = "Only one 16 seed has beaten a 1 seed (UMBC vs. Virginia in 2018)",  
+         x = "Seed", 
+         y = "Percent Chance of Upset",
+         caption = "Source: kaggle (Woody Gilbertson; 2021)")
+```
+
+```{r, upsets_per_round}
+# gather the data
+
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+# data from 2022 tournament
+
+last_year <- tribble(~ROUND, ~upsets_per_round, ~total_games,
+        1, 7, 1184,
+        2, 5, 592,
+        3, 5, 296,
+        4, 0, 148,
+        5, 1, 74,
+        6, 0, 37)
+
+# wrangle the data
+
+data <- mm_data |> 
+  select(WSEED, LSEED, ROUND) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, TRUE, FALSE)) |> 
+  mutate(upset = if_else(WSEED > LSEED + 1, 1, 0)) |>
+  group_by(ROUND) |> 
+  summarize(upsets_per_round = sum(upset)) |> 
+  filter(ROUND != 0)
+# mutate(total_games = sum(ROUND)/ROUND)
+  
+# combine with 2022 data
+
+joined <- full_join(data, last_year)
+
+# have more than one 1,2,3,5 in the ROUND category, have to combine them
+
+upset_data <- joined |> 
+  group_by(ROUND) |>
+  summarize(upsets_per_round= sum(upsets_per_round))
+
+# finding average upsets per round with upset_data
+
+# cannot find a way to combine upset_data with the total amount of games played per round besides a new tibble
+
+rounds <- tribble(~ROUND, ~upsets_per_round, ~total_games, 
+        1, 231, 1184, 
+        2, 136, 592, 
+        3, 65, 296, 
+        4, 36, 148, 
+        5, 12, 74, 
+        6, 3, 37)
+
+# appears as if the chance for an upset goes down as the rounds go up, but this could jsut be because the seeds get closer together.
+
+rounds |> 
+  mutate(upset_chance = upsets_per_round/total_games) |> 
+  ggplot(aes(x = ROUND, y = upset_chance)) + 
+  geom_line(color = "blue") + 
+  scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6)) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme_bw() + 
+  labs(title = "Percent Chance of Upset in Each Round of March Madness",
+       subtitle = "Upsets are common earlier in the tournament, but higher seeds tend to \nwin in the later rounds", 
+       x = "Round", 
+       y = "Percent Chance of Upset",
+       caption = "Source: kaggle (Woody Gilbertson; 2021)")
+
+```
+
+```{r, final_four}
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+#2022 data
+
+last_year <- tribble(~WSEED, ~seed_total,
+        1, 1,
+        2, 1,
+        2, 1,
+        8, 1)
+
+# filtering data to teams that have qualified for final four
+
+data <- mm_data |> 
+  filter(ROUND == 4) |> 
+  group_by(WSEED) |> 
+  summarize(seed_total = sum(WSEED) / WSEED)
+
+#joining data to 2022 data
+
+combined <- full_join(data, last_year)
+
+# trying to get rid of repeat rows
+
+combined |> 
+  group_by(WSEED) |> 
+  summarize(seed_total = sum(WSEED) / WSEED)
+
+#not sure how to make it so there is only 1 "1" WSEED, and so forth. Will make a tibble instead. 
+
+joined_data <- tribble(~WSEED, ~seed_total,
+        1, 60, 
+        2, 32,
+        3, 17,
+        4, 13, 
+        5, 7, 
+        6, 3,
+        7, 3,
+        8, 6,
+        9, 1,
+        10, 1,
+        11, 5)
+
+#making graph, used  fill = lightcyan4 and color = ivory4 originally
+
+joined_data |> 
+  ggplot(aes(x = WSEED, y = seed_total / 148)) +
+    geom_col(fill = "steelblue4", color = "steelblue4") +
+    scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme_stata() + 
+  labs(title = "Percent Chance of Making Final Four by Seed", 
+       subtitle = "Each 1 seed has over a 40% chance of making the Final Four, \nno seed ranked 12+ has ever made the final four", 
+       x = "Seed", 
+       y = "Percent Chance of Making Final Four",
+       caption = "Source: kaggle (Woody Gilbertson; 2021)")
+  
+```
+
+```{r, championship}
+mm_data <- read_csv(file = "data_cleaned.csv")
+
+# 2022 data
+
+last_year <- tribble(~WSEED, ~times_won,
+        1, 1)
+
+# filter data
+
+data <- mm_data |>
+  filter(ROUND == 6) |>
+  group_by(WSEED) |>
+  summarize(times_won = sum(WSEED) / WSEED)
+
+# join to 2022 data
+
+combined <- full_join(data, last_year)
+
+# above command did not add in the row, it kept it separate. Now combining the rows
+
+combined |> 
+  group_by(WSEED) |> 
+  summarize(times_won = sum(WSEED) / WSEED)
+
+# Rows are still repeating, I have 24 rows where WSEED = 1, and so forth. Making a tibble to fix this.
+
+joined_data <- tribble(~WSEED, ~times_won, 
+        1, 24,
+        2, 5,
+        3, 4,
+        4, 1,
+        6, 1,
+        7, 1,
+        8, 1)
+
+# graphing
+
+joined_data |> 
+  ggplot(aes(x = WSEED, y = times_won / 37)) + 
+    geom_col(color = "honeydew4", fill = "honeydew3") + 
+    scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8)) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme_bw() + 
+  labs(title = "Percent Chance of Each Seed Winning the National Championship", 
+       subtitle = "It is very likely a 1 seed will win, and no 5 seed has ever won", 
+       x = "Seed", 
+       y = "Percent Chance of Winning",
+       caption = "Source: kaggle (Woody Gilbertson; 2021)")
+
 
 ```
 
