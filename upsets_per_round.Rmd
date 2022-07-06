@@ -70,7 +70,7 @@ rounds |>
   scale_y_continuous(labels = scales::percent_format()) + 
   theme_bw() + 
   labs(title = "Percent Chance of Upset in Each Round of March Madness",
-       subtitle = "Upsets are common earlier in the tournament, but higher seeds tend to \nwin in the later rounds", 
+       subtitle = "Upsets are common earlier in the tournament, but higher seeds tend to win in the later rounds", 
        x = "Round", 
        y = "Percent Chance of Upset",
        caption = "Source: kaggle (Woody Gilbertson; 2021)")
