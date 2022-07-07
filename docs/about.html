@@ -90,27 +90,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>March Madness: How to Pick the Perfect Bracket: About this site</title>
 
-  <meta property="description" itemprop="description" content="Some additional details about the website"/>
+  <meta property="description" itemprop="description" content="This site was created as part of Kane&#39;s Free High School Data Science Bootcamp"/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="March Madness: How to Pick the Perfect Bracket: About this site"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Some additional details about the website"/>
+  <meta property="og:description" content="This site was created as part of Kane&#39;s Free High School Data Science Bootcamp"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="March Madness: How to Pick the Perfect Bracket"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="March Madness: How to Pick the Perfect Bracket: About this site"/>
-  <meta property="twitter:description" content="Some additional details about the website"/>
+  <meta property="twitter:description" content="This site was created as part of Kane&#39;s Free High School Data Science Bootcamp"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["About this site"]},{"type":"character","attributes":{},"value":["Some additional details about the website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["About this site"]},{"type":"character","attributes":{},"value":["This site was created as part of Kane's Free High School Data Science Bootcamp"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2087,7 +2087,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"About this site","description":"Some additional details about the website","authors":[]}
+{"title":"About this site","description":"This site was created as part of Kane's Free High School Data Science Bootcamp","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2100,7 +2100,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="sources.html">Sources</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Sources
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="source_A.html">Source A</a>
+<a href="source_B.html">Source B</a>
+</div>
+</div>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2113,29 +2123,34 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>About this site</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Some additional details about the website</p></p>
+<p><p>This site was created as part of Kane’s Free High School Data
+Science Bootcamp</p></p>
 </div>
 
 
 <div class="d-article">
 <h2 id="about-me">About Me</h2>
 <p>My name is <strong>Jackson Roe</strong>, and I am a rising senior
-attending Dublin Coffman High School.</p>
+attending Dublin Coffman High School. <em>Contact Info</em> Email: <a
+href="mailto:jacksonrroe@outlook.com"
+class="email">jacksonrroe@outlook.com</a>, <a
+href="mailto:jacksonrroe@gmail.com"
+class="email">jacksonrroe@gmail.com</a> Phone: (614) 309-2167</p>
 <h2 id="about-the-project">About the Project</h2>
 <p><em>March Madness: How to pick a perfect bracket</em><br />
 This project was designed to analyze every march madness bracket since
 the 1985 expansion to a 64-team tournament, with the goal of providing
 people with an easy to understand blueprint of how to pick the best
 bracket possible.</p>
-<h3 id="goals">Goals</h3>
-<ul>
-<li>Effectively analyze past March Madness Tournaments
-<ul>
-<li>It may be hard to create complex variables with the simple dataset I
-have found.</li>
-</ul></li>
-<li>Provide useful data to people about March Madness</li>
-</ul>
+<p><em>Source</em> The data used for this project came from the Kaggle
+data set “NCAAM March Madness Scores 1985-2021,” by Woody Gilbertson.
+This data set provided the year, round, and the seed, name, and score of
+the winning and losing team for every game from 1985-2021. Data from the
+2022 season was added in manually.</p>
+<h3 id="github-repository">GitHub Repository</h3>
+<p>Code for this project can be found in the following github repository
+<a href="https://github.com/jacksonrroe/march_madness_analysis"
+class="uri">https://github.com/jacksonrroe/march_madness_analysis</a></p>
 <p>“This is data science”<br />
 ~Preceptor<br />
 <a href="https://bootcamp.davidkane.info">Kane’s Free High School Data

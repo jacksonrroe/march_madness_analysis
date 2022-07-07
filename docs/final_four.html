@@ -859,7 +859,17 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="sources.html">Sources</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Sources
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="source_A.html">Source A</a>
+<a href="source_B.html">Source B</a>
+</div>
+</div>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -889,8 +899,20 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
-<li>
-  <a href="sources.html">Sources</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="source_A.html">Source A</a>
+    </li>
+    <li>
+      <a href="source_B.html">Source B</a>
+    </li>
+  </ul>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -959,22 +981,7 @@ combined |&gt;
 ##  9     1         60
 ## 10     1         60
 ## # … with 138 more rows</code></pre>
-<pre class="r"><code>#not sure how to make it so there is only 1 &quot;1&quot; WSEED, and so forth. Will make a tibble instead. 
-
-joined_data &lt;- tribble(~WSEED, ~seed_total,
-        1, 60, 
-        2, 32,
-        3, 17,
-        4, 13, 
-        5, 7, 
-        6, 3,
-        7, 3,
-        8, 6,
-        9, 1,
-        10, 1,
-        11, 5)
-
-#making graph, used  fill = lightcyan4 and color = ivory4 originally
+<pre class="r"><code>#making graph, used  fill = lightcyan4 and color = ivory4 originally
 
 joined_data |&gt; 
   ggplot(aes(x = WSEED, y = seed_total / 148)) +
@@ -987,7 +994,7 @@ joined_data |&gt;
        x = &quot;Seed&quot;, 
        y = &quot;Percent Chance of Making Final Four&quot;,
        caption = &quot;Source: kaggle (Woody Gilbertson; 2021)&quot;)</code></pre>
-<p><img src="final_four_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="final_four_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

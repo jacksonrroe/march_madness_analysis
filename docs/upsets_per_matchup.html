@@ -859,7 +859,17 @@ $(document).ready(function () {
 <div class="nav-right">
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="sources.html">Sources</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Sources
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="source_A.html">Source A</a>
+<a href="source_B.html">Source B</a>
+</div>
+</div>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -889,8 +899,20 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About</a>
 </li>
-<li>
-  <a href="sources.html">Sources</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="source_A.html">Source A</a>
+    </li>
+    <li>
+      <a href="source_B.html">Source B</a>
+    </li>
+  </ul>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -908,9 +930,16 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>mm_data &lt;- read.csv(file = &quot;data_cleaned.csv&quot;)
-
-# wrangled with data to make table that shows the total number of upsets historically per matchup
+<pre class="r"><code>mm_data &lt;- read_csv(file = &quot;data_cleaned.csv&quot;)</code></pre>
+<pre><code>## Rows: 2317 Columns: 8
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): WTEAM, LTEAM
+## dbl (6): YEAR, ROUND, WSEED, WSCORE, LSEED, LSCORE
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code># wrangled with data to make table that shows the total number of upsets historically per matchup
 
 first_rd_upsets &lt;- mm_data |&gt; 
   filter(ROUND == 1) |&gt; 
