@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-Source A was Primer.data. It was flawless.
+Source B was Primer.data. It was flawless.
 [@primerdata]
 
 
