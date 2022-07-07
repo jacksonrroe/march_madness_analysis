@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 My name is **Jackson Roe**, and I am a rising senior attending Dublin Coffman High School. 
 
 ### Contact Info
-Email: jacksonrroe@outlook.com, jacksonrroe@gmail.com
+Email: jacksonrroe@outlook.com
 
 Phone: (614) 309-2167
 
