@@ -2,6 +2,7 @@
 title: "About this site"
 description: |
   This site was created as part of Kane's Free High School Data Science Bootcamp
+site: distill::distill_website
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +12,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## About Me
 My name is **Jackson Roe**, and I am a rising senior attending Dublin Coffman High School. 
-*Contact Info*
+
+### Contact Info
 Email: jacksonrroe@outlook.com, jacksonrroe@gmail.com
 Phone: (614) 309-2167
 
@@ -19,12 +21,13 @@ Phone: (614) 309-2167
 *March Madness: How to pick a perfect bracket*  
 This project was designed to analyze every march madness bracket since the 1985 expansion to a 64-team tournament, with the goal of providing people with an easy to understand blueprint of how to pick the best bracket possible.
 
-*Source*
+### Source
 The data used for this project came from the Kaggle data set "NCAAM March Madness Scores 1985-2021," by Woody Gilbertson. This data set provided the year, round, and the seed, name, and score of the winning and losing team for every game from 1985-2021. Data from the 2022 season was added in manually. 
 
 ### GitHub Repository
-Code for this project can be found in the following github repository
+Code for this project can be found in the following github repository:
 https://github.com/jacksonrroe/march_madness_analysis
+
 
 “This is data science”  
 ~Preceptor  

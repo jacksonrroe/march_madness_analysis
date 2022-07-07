@@ -1,7 +1,7 @@
 ---
-title: "NCAAM 1985-2021"
+title: "Primer.data"
 description: |
-  Dataset found on Kaggle featuring data about March Madness
+  
 author:
   - name: Jackson Roe
 date: "`r Sys.Date()`"
@@ -14,13 +14,8 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-Source B was the Kaggle dataset "NCAAM March Madness Scores 1985-2021," by Woody Gilbertson. 
-[@gilbertson_2021]
-
-link: https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
-
-
-
+Source A was Primer.data. It was flawless.
+[@primerdata]
 
 
 
