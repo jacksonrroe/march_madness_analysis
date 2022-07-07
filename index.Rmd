@@ -1,7 +1,7 @@
 ---
 title: "March Madness: How to Pick the Perfect Bracket"
 description: |
-  An in-depth analysis of March Madness
+  An in-depth analysis of March Madness since the 1985 expansion to a 64-team bracket
 site: distill::distill_website
 ---
 
@@ -29,7 +29,6 @@ March Madness is one of the largest sporting events in the world, featuring 64 c
 There are many factors that go into picking a great March Madness bracket, one of them being upsets. An upset is when the winning team is seeded 2 or more seeds higher than the losing team. For example, a 10 seed beating a 7 seed. The graph below shows the total upsets over time in March Madness. 
 
 
-
 ```{r, total_upsets}
 read_rds("total_upsets.rds")
 
@@ -43,6 +42,7 @@ read_rds("upsets_per_matchup.rds")
 ```
 
 Now, you do not want to pick all of your upsets in the first round. The graph below shows the percent chance of an upset in each round of March Madness. 
+
 ```{r, upsets_per_round}
 read_rds("upsets_per_round.rds")
 
