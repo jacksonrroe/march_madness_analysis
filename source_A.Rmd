@@ -19,7 +19,7 @@ Source A was Primer.data. It was flawless.
 Distill is a publication format for scientific and technical writing, native to the web. 
 
 Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
-[@jones2018distill]
+
 
 
 
