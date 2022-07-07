@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE)
 Source A was the Kaggle dataset "NCAAM March Madness Scores 1985-2021," by Woody Gilbertson. 
 [@gilbertson_2021]
 
-link: https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
+Link: https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
 
 
 
