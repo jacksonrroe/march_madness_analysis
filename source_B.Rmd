@@ -1,0 +1,28 @@
+---
+title: "source_B.Rmd"
+description: |
+  Detailed Notes for Source B.
+author:
+  - name: Jackson Roe
+date: "`r Sys.Date()`"
+output: distill::distill_article
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+Source B was the Kaggle dataset "NCAAM March Madness Scores 1985-2021," by Woody Gilbertson. 
+[@gilbertson_2021]
+
+https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
+Distill is a publication format for scientific and technical writing, native to the web. 
+
+Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
+
+
+
+
+
