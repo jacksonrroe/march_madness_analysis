@@ -25,7 +25,7 @@ library(usethis)
 March Madness is one of the largest sporting events in the world, featuring 64 college basketball teams. The 64 teams are split into four regions and seeded from 1-16, with 1 seeds being the best teams and 16 seeds being the worst teams. 
 
 ## How to Pick a Perfect Bracket
-There are many factors that go into picking a perfect March Madness bracket, one of them being upsets. An upset is when the team is seeded 2 or more seeds higher than the losing team. The graph below shows the total upsets over time in March Madness. 
+There are many factors that go into picking a perfect March Madness bracket, one of them being upsets. An upset is when the winning team is seeded 2 or more seeds higher than the losing team. The graph below shows the total upsets over time in March Madness. 
 
 ```{r, total_upsets}
 read_rds("total_upsets.rds")
@@ -39,21 +39,21 @@ read_rds("upsets_per_matchup.rds")
 
 ```
 
-Now, you do not want to pick all of your upsets in the first round. The graph below shows the average amount of upsets in each round of March Madness. 
+Now, you do not want to pick all of your upsets in the first round. The graph below shows the percent chance of an upset in each round of March Madness. 
 
 ```{r, upsets_per_round}
 read_rds("upsets_per_round.rds")
 
 ```
 
-Another thing to consider in your bracket is what teams you pick to make the final four. Most sites increase the amount of points awarded for correctly picking the winner of matchups as the tournament goes on. The graph below shows the percent chance of making the Final Four by seed. 
+Another thing to consider in your bracket is what teams you pick to make the final four. Most bracket pools increase the amount of points awarded for correctly picking the winner of matchups in later rounds of the tournament. The graph below shows the percent chance of making the Final Four by seed. 
 
 ```{r, final_four}
 read_rds("final_four.rds")
   
 ```
 
-Finally, the most important thing in March Madness is picking the winner. The graph below shows the percent chance of different seeds winning the National Championship. 
+Finally, the most important thing in March Madness is picking the winner. Most bracket pools come down to who can correctly pick the winner. The graph below shows the percent chance of different seeds winning the National Championship. 
 
 ```{r, championship}
 read_rds("championship.rds")
