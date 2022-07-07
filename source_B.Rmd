@@ -1,7 +1,7 @@
 ---
-title: "source_B.Rmd"
+title: "NCAAM 1985-2021"
 description: |
-  Detailed Notes for Source B.
+  Dataset found on Kaggle featuring data about March Madness
 author:
   - name: Jackson Roe
 date: "`r Sys.Date()`"
@@ -17,10 +17,8 @@ knitr::opts_chunk$set(echo = FALSE)
 Source B was the Kaggle dataset "NCAAM March Madness Scores 1985-2021," by Woody Gilbertson. 
 [@gilbertson_2021]
 
-https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
-Distill is a publication format for scientific and technical writing, native to the web. 
+link: https://www.kaggle.com/datasets/woodygilbertson/ncaam-march-madness-scores-19852021
 
-Learn more about using Distill for R Markdown at <https://rstudio.github.io/distill>.
 
 
 
